@@ -6,6 +6,7 @@ const cors = require('cors');  // Optional: to enable Cross-Origin Resource Shar
 const connectDb = require('./config/dbConnect');  // Assuming this is your DB connection setup
 const authRoutes = require('./routes/Users.js');  // Import the routes
 
+
 dotenv.config();  // Load environment variables from .env file
 
 const app = express();
@@ -13,14 +14,14 @@ const app = express();
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 app.use(cors());  // Enable CORS if you need it (optional)
-
 // Connect to the database
 connectDb();
 
 // Use the auth routes for handling authentication-related routes
 app.use('/api/auth', authRoutes);  // Base path '/api/auth' for signup and other authentication routes
 app.use('/api/login', authRoutes);
-
+app.use('/api/profile', authRoutes);
+app.use("/api/updateProfile", authRoutes);
 // Test route to check if the server is running
 app.get("/", (req, res) => {
     res.send("Hello world, the server is running.");

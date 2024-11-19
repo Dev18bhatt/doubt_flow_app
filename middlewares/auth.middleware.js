@@ -3,25 +3,27 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const middlewareChecks = (req, res, next) => {
-
     try {
-        const authHeader = req.headers.authorization.split(" ")[1];
-        if (!authHeader || authHeader.startsWith("Bearer ")) {
-            return res.status(401).json("Authorization token is missing or invalid");
+        // Ensure the Authorization header exists
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).send({ message: 'Authorization header is missing or invalid' });
         }
-        const token = authHeader.split(" ")[1];
-        const checkToken = jwt.verify(token, process.env.JWT_SCRET);
 
-        req.user = token;
+        // Extract the token
+        const token = authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).send({ message: 'Token not found' });
+        }
 
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SCRET);
+        console.log('this is our decoded half -> ', decoded);
+        req.user = decoded; // Attach user info to the request object
         next();
-
+    } catch (error) {
+        res.status(403).send({ message: 'Invalid or expired token', error: error.message });
     }
-    catch (err) {
-        console.log("Token verification Failed ", err);
-        res.status(401).send({ message: "Token Invalid" });
-    }
+};
 
-
-
-}
+module.exports = middlewareChecks;
