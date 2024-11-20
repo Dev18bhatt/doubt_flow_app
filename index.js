@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');  // Optional: to enable Cross-Origin Resource Sharing
 const connectDb = require('./config/dbConnect');  // Assuming this is your DB connection setup
 const authRoutes = require('./routes/Users.js');  // Import the routes
-
+const questionRouter = require('./routes/Questions.js');
 
 dotenv.config();  // Load environment variables from .env file
 
@@ -22,6 +22,12 @@ app.use('/api/auth', authRoutes);  // Base path '/api/auth' for signup and other
 app.use('/api/login', authRoutes);
 app.use('/api/profile', authRoutes);
 app.use("/api/updateProfile", authRoutes);
+
+
+// use question routes for posting question...
+app.use('/api/askquestion', questionRouter);
+app.use('/api/askquestion', questionRouter);
+app.use('/api/askquestion', questionRouter);
 // Test route to check if the server is running
 app.get("/", (req, res) => {
     res.send("Hello world, the server is running.");
