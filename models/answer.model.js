@@ -5,8 +5,10 @@ const answerSchema = mongoose.Schema({
     questionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question',
-        required: true
-    },
+        required: true,
+        index: true
+    }
+    ,
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users',

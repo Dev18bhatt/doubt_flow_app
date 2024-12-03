@@ -27,6 +27,30 @@ const askQuestion = async (req, res) => {
         res.status(500).send({ message: "Failed to post question", error: error.message });
     }
 };
+const getSpecificQuestion = async (req, res) => {
+    try {
+        // Fetch the question by ID
+        const findQuestion = await questionModels.findById(req.params.id);
+
+        // If the question is not found
+        if (!findQuestion) {
+            return res.status(404).send({
+                message: "Question not found."
+            });
+        }
+
+        // Successfully fetched the question
+        return res.status(200).send({
+            message: "Question fetched successfully.",
+            data: findQuestion,
+        });
+    } catch (err) {
+        console.error("Error fetching question:", err);
+        return res.status(500).send({
+            message: "An error occurred while fetching the question."
+        });
+    }
+};
 
 const getAllQuestion = async (req, res) => {
     try {
@@ -65,4 +89,4 @@ const deleteQuestion = async (req, res) => {
         res.status(500).send({ message: "Something went wrong. Please try again later." });
     }
 }
-module.exports = { askQuestion, getAllQuestion, deleteQuestion };
+module.exports = { askQuestion, getAllQuestion, deleteQuestion, getSpecificQuestion };
