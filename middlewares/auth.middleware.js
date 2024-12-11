@@ -17,7 +17,7 @@ const middlewareChecks = (req, res, next) => {
         }
 
         // Verify the token
-        const decoded = jwt.verify(token, process.env.JWT_SCRET);
+        const decoded = jwt.verify(token, "shhh");
         console.log('this is our decoded half -> ', decoded);
         req.user = decoded; // Attach user info to the request object
         next();

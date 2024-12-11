@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();  // Load environment variables from .env file
 
 const signUpController = async (req, res) => {
-    const {name,email,password } = req.body;
+    const { name, email, password } = req.body;
     try {
         // Validate required fields
         if (!name || !email || !password) {
@@ -80,7 +80,7 @@ const loginController = async (req, res) => {
                 email: user.email,
                 id: user._id
             },
-            process.env.JWT_SCRET,  // Corrected typo in environment variable
+            "shhh",  // Corrected typo in environment variable
             { expiresIn: '2d' }
         );
 
